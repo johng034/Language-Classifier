@@ -1,10 +1,11 @@
 import pickle
 import streamlit as st
 import time
-import pandas as pd
+# import pandas as pd
 import matplotlib.pyplot as plt
 import pyautogui
 import re
+from platform import system
 # import numpy as np
 
 # DOCUMENTATION
@@ -12,15 +13,19 @@ import re
 # https://docs.streamlit.io/en/stable/getting_started.html
 
 
-# save the model to disk
+# Model path
 model_file = './saved-items/naive_bayes.sav'
 language_file = './saved-items/languages.sav'
-# naive = 'naive.sav'
  
-# load the model from disk
+# Load the model
 model = pickle.load(open(model_file, 'rb'))
 languages = pickle.load(open(language_file, 'rb'))
-# naive = pickle.load(open(n, 'rb'))
+
+# Operating System
+sys_name = system()
+system_keys = {
+    'Windows': 'ctrl'
+}
 
 # Preprocess function
 def preprocess(text):
@@ -47,10 +52,10 @@ if bool(text) or st.button("Classify"):
     if not bool(text):
         st.subheader("Please type a sentence.")
         if st.button('Reset'):
-            pyautogui.hotkey('command','r')
+            pyautogui.hotkey(system_keys[sys_name],'r')
         else:
             time.sleep(5)
-            pyautogui.hotkey('command','r')
+            pyautogui.hotkey(system_keys[sys_name],'r')
 
     else:
         st.header("Prediction")
@@ -65,7 +70,7 @@ if bool(text) or st.button("Classify"):
             st.markdown("The model is not sure which language this is. Any prediction would be a random guess. \
             Please try again with more text.")
             if st.button('Reset'):
-                pyautogui.hotkey('command','r')
+                pyautogui.hotkey(system_keys[sys_name],'r')
         else:
             st.subheader(prediction)
 
@@ -75,7 +80,7 @@ if bool(text) or st.button("Classify"):
             # st.text(probabilities)
             # st.text(languages)
 
-            df = pd.DataFrame(probabilities, columns=languages)
+            # df = pd.DataFrame(probabilities, columns=languages)
             # st.dataframe(df)
 
             fig, ax = plt.subplots()
@@ -91,4 +96,4 @@ if bool(text) or st.button("Classify"):
 
             # st.bar_chart(df)
             if st.button('Reset'):
-                pyautogui.hotkey('command','r')
+                pyautogui.hotkey(system_keys[sys_name],'r')
