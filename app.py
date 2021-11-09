@@ -1,12 +1,11 @@
-import pickle
-import streamlit as st
-import time
-# import pandas as pd
-import matplotlib.pyplot as plt
-import pyautogui
 import re
+import time
+import pickle
+import pyautogui
+import pandas as pd
+import streamlit as st
+import plotly.express as px
 from platform import system
-# import numpy as np
 
 # DOCUMENTATION
 # Streamlit
@@ -21,10 +20,12 @@ language_file = './saved-items/languages.sav'
 model = pickle.load(open(model_file, 'rb'))
 languages = pickle.load(open(language_file, 'rb'))
 
-# Operating System
+# Operating System (for pyautogui.hotkey on lines 57, 71, and 88
 sys_name = system()
 system_keys = {
-    'Windows': 'ctrl'
+    'Windows': 'ctrl',
+    'Darwin': 'command',
+    'Linux': 'ctrl'
 }
 
 # Preprocess function
@@ -38,13 +39,14 @@ def preprocess(text):
     return text
 
 # Streamlit app
+st.set_page_config(page_title='Language Classifier', page_icon='🗣')
 st.title("Language Classifier")
 
-# Summary
-st.markdown("Hello and welcome! For this project, I trained a Naive Bayes Classifier to \
-            predict which language the user types in. so yeah")
 
-# def run_algo():
+# Welcome message
+st.markdown("Hello and welcome! For this project, I trained a Naive Bayes classifier to \
+            predict the language you type in. Please try it out and see how it performs!")
+
 text = st.text_input("Please type a sentence: ")
 text = preprocess(text)
 
@@ -53,47 +55,34 @@ if bool(text) or st.button("Classify"):
         st.subheader("Please type a sentence.")
         if st.button('Reset'):
             pyautogui.hotkey(system_keys[sys_name],'r')
-        else:
-            time.sleep(5)
-            pyautogui.hotkey(system_keys[sys_name],'r')
 
     else:
-        st.header("Prediction")
         prediction = str(model.predict([text])[0])
         st.subheader("The classifier predicts this language is: ")
         time.sleep(0.2)
         probabilities = model.predict_proba([text])
         probs = probabilities[0]
 
-        if all([x == probs[0] for x in probs]):
+        if all([x == probs[0] for x in probs]):  # In case the model cannot predict the language
             st.subheader('Unsure')
             st.markdown("The model is not sure which language this is. Any prediction would be a random guess. \
             Please try again with more text.")
             if st.button('Reset'):
                 pyautogui.hotkey(system_keys[sys_name],'r')
+
         else:
             st.subheader(prediction)
 
+            # DataFrame with prediction probabilities
+            results = {
+                'Language': [languages[i] for i in range(len(languages))],
+                'Probability': [probs[i] for i in range(len(probs))]
+            }
+            df = pd.DataFrame(results)
 
-            # Bar graph
-            # probabilities = model.predict_proba([text])
-            # st.text(probabilities)
-            # st.text(languages)
+            # Plot a bar chart of predictions
+            fig = px.bar(df, x=df.Language, y=df.Probability, title='Probability of Each Language')
+            st.plotly_chart(fig)
 
-            # df = pd.DataFrame(probabilities, columns=languages)
-            # st.dataframe(df)
-
-            fig, ax = plt.subplots()
-            ax.bar(x=languages, height=probabilities.reshape(10,), width=0.8)
-            ax.tick_params(labelrotation=45)
-            st.pyplot(fig)
-
-            # st.markdown((naive.coef_.size))
-
-            # plt.figure(figsize=(12, 8))
-            # plt.bar(x=langs, height=pred_probs.reshape(10,), width=0.8)
-            # plt.show()
-
-            # st.bar_chart(df)
             if st.button('Reset'):
                 pyautogui.hotkey(system_keys[sys_name],'r')
