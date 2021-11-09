@@ -1,3 +1,4 @@
+import os
 import re
 import time
 import pickle
@@ -11,6 +12,7 @@ from platform import system
 # Streamlit
 # https://docs.streamlit.io/en/stable/getting_started.html
 
+os.environ['DISPLAY'] = ':0'
 
 # Model path
 model_file = './saved-items/naive_bayes.sav'
