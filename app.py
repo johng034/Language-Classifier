@@ -1,5 +1,5 @@
 import os
-os.environ['DISPLAY'] = ':0.0'
+os.environ['DISPLAY'] = ':1'
 # os.environ['XAUTHORITY']='/run/user/1000/gdm/Xauthority'
 
 import re
