@@ -19,7 +19,7 @@ The simplest way to view the web app is by visiting the following link: https://
 
 ### 2. Run locally
 If you wish to run the application on your machine, then complete the following steps:
-1. [**Clone** the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+1. **Clone** the repository ([click here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) for instructions on how to clone a GitHub repository)
 2. **Open the folder of this repository** in your editor of choice (or in the terminal/command prompt)
 3. In the terminal, **install the packages** with `pip install requirements.txt` (you may want to install using a [virtual environment](https://docs.python.org/3/tutorial/venv.html) for this)
 4. Once the packages are installed, you can **run the streamlit application** by typing `streamlit run app.py` in the terminal
