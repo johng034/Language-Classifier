@@ -12,7 +12,7 @@ import plotly.express as px
 # https://docs.streamlit.io/en/stable/getting_started.html
 
 # Model path
-model_file = './saved-items/naive_bayes.sav'
+model_file = './saved-items/algorithm.sav'
 language_file = './saved-items/languages.sav'
  
 # Load the model
@@ -29,9 +29,11 @@ languages = pickle.load(open(language_file, 'rb'))
 
 # Preprocess function
 def preprocess(text):
-    text = re.sub("[\[\[\]\]?—\"\"«»]", "", text)  # Remove special characters
+    text = ''.join([char for char in text if not char.isdigit()])  # Remove numbers
+    text = re.sub("[\[\[\]\]\(\)?¿—\"\"«»,.;–:!]", "", text)  # Remove special characters
     text = text.replace('\u200b', '')
     text = re.sub("-", " ", text)  # Replace '-' with a space
+    text = re.sub("'", " ", text)  # Replace " ' " with a space
     text = " ".join(text.split())  # Remove any extra spaces
     text = text.lower()
     
@@ -43,7 +45,7 @@ st.title("Language Classifier")
 
 
 # Welcome message
-st.markdown("Hello and welcome! For this project, I trained a Naive Bayes classifier to \
+st.markdown("Hello and welcome! For this project, I trained a Random Forest classifier to \
             predict the language you type in. Please try it out and see how it performs!")
 
 

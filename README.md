@@ -23,3 +23,6 @@ If you wish to run the application on your machine, then complete the following 
 2. **Open the folder of this repository** in your editor of choice (or in the terminal/command prompt)
 3. In the terminal, **install the packages** with `pip install requirements.txt` (you may want to install using a [virtual environment](https://docs.python.org/3/tutorial/venv.html) for this)
 4. Once the packages are installed, you can **run the streamlit application** by typing `streamlit run app.py` in the terminal
+
+## Improvements
+I would like to add more data and support for more languages. I am currently considering adding data from wikipedia pages or tweets as additional data
