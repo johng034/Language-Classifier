@@ -7,7 +7,7 @@ The algorithms I used were:
   - Multinomial Naive Bayes
   - Random Forest
 
-Out of these three algorithms, **multinomial nayes bayes** performed the best (although random forest was a close second).
+Out of these three algorithms, **Random Forest** performed the best (although Multinomial Nayes Bayes was a close second).
 
 *Note:* In case you're wondering how I chose the parameters for each algorithm: I used `RandomizedSearchCV` from the sci-kit learn library to arrive at those parameters. I did not include the code for this because it took a long time to run each time.
 
@@ -25,4 +25,4 @@ If you wish to run the application on your machine, then complete the following 
 4. Once the packages are installed, you can **run the streamlit application** by typing `streamlit run app.py` in the terminal
 
 ## Improvements
-I would like to add more data and support for more languages. I am currently considering adding data from wikipedia pages or tweets as additional data
+I am currently considering adding data from wikipedia pages or tweets to train the algorithm on a wider range of data.
